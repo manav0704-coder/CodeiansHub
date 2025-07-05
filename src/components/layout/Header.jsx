@@ -20,7 +20,7 @@ import {
   Filter 
 } from 'lucide-react';
 import { useNotifications } from '../../context/NotificationContext';
-import { Button } from '../../components/ui/button';
+import { Button } from '../../components/ui/Button';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

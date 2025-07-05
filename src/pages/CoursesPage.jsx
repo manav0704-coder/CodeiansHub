@@ -1,6 +1,6 @@
 import { CheckCircle, Star, BookOpen, Clock, Award, Users, ArrowRight, Calendar } from 'lucide-react';
 import { coursesData } from '../data/courses';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
 import { useState } from 'react';
 
 const CoursesPage = () => {

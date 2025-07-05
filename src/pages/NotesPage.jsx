@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Search, FileText, Download, BookOpen, Star, User, Clock } from 'lucide-react';
 import { notesData } from '../data/notes';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
 
 const NotesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');

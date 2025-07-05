@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
-import { tutorialsData } from '../data/tutorials';
 import { Button } from '../components/ui/Button';
+import { tutorialsData } from '../data/tutorials';
 
 const TutorialDetailPage = () => {
   const { tutorialId, sectionId, chapterId } = useParams();

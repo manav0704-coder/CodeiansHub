@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, BookOpen, Book, FileText, Star, Code, CheckCircle, ArrowRight, Users, Trophy, Zap, Clock, Target, Layers, Rocket } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
 import { tutorialsData } from '../data/tutorials';
 
 const TypewriterText = ({ text, delay = 100 }) => {
