@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Code, Youtube, Instagram, Linkedin, Mail } from 'lucide-react';
+import logoImage from '../../assets/images/logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,12 +11,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           {/* Brand */}
           <div className="col-span-1 lg:col-span-1">
-            <NavLink to="/" className="flex items-center gap-2 font-bold text-secondary-600 dark:text-secondary-400">
-              <Code className="h-6 w-6" />
-              <span className="text-xl">CodeiansHub</span>
+            <NavLink to="/" className="flex items-center gap-2">
+              <img 
+                src={logoImage} 
+                alt="CodePeCharcha Logo" 
+                className="h-8 w-8 rounded-full object-cover border border-gray-200 dark:border-gray-700 overflow-hidden" 
+              />
+              <span className="text-xl font-bold text-gray-900 dark:text-white">CodePeCharcha</span>
             </NavLink>
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              Empowering students to master web development through modern, accessible education.
+              Learn coding with interactive tutorials, comprehensive courses, and helpful notes.
             </p>
             <p className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">
               Created by Manav Pardeshi
@@ -120,7 +125,7 @@ const Footer = () => {
 
         <div className="mt-12 border-t border-gray-200 pt-6 dark:border-gray-800">
           <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-            © {currentYear} CodeiansHub by Manav Pardeshi. All rights reserved.
+            © {currentYear} CodePeCharcha by Manav Pardeshi. All rights reserved.
           </p>
         </div>
       </div>

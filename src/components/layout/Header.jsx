@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { 
   Menu, 
   X, 
@@ -17,10 +17,15 @@ import {
   Star, 
   TrendingUp, 
   Clock, 
-  Filter 
+  Filter,
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft 
 } from 'lucide-react';
 import { useNotifications } from '../../context/NotificationContext';
 import { Button } from '../../components/ui/Button';
+import { tutorialsData } from '../../data/tutorials';
+import logoImage from '../../assets/images/logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,9 +36,11 @@ const Header = () => {
   const [recentSearches, setRecentSearches] = useState(['React Hooks', 'CSS Grid', 'JavaScript Arrays']);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [expandedSections, setExpandedSections] = useState({});
   const notificationRef = useRef(null);
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   
   // Use the notification context
   const { 
@@ -42,6 +49,18 @@ const Header = () => {
     markAsRead, 
     markAllAsRead 
   } = useNotifications();
+
+  // Check if we're in a tutorial page
+  const isTutorialPage = location.pathname.includes('/tutorials/');
+  
+  // Extract tutorial ID from path for tutorial pages
+  const tutorialPathMatch = location.pathname.match(/\/tutorials\/([^\/]+)/);
+  const currentTutorialId = tutorialPathMatch ? tutorialPathMatch[1] : null;
+  
+  // Get current tutorial data
+  const currentTutorial = currentTutorialId 
+    ? tutorialsData.find(t => t.id === currentTutorialId) 
+    : null;
 
   // Check for user's preferred color scheme on initial load
   useEffect(() => {
@@ -60,7 +79,14 @@ const Header = () => {
     if (savedSearches) {
       setRecentSearches(JSON.parse(savedSearches));
     }
-  }, []);
+
+    // If this is a tutorial page and there's a tutorial loaded, expand its sections
+    if (currentTutorialId && currentTutorial) {
+      const initialExpandedSections = {};
+      initialExpandedSections[currentTutorialId] = true;
+      setExpandedSections(initialExpandedSections);
+    }
+  }, [currentTutorialId, currentTutorial]);
 
   // Handle keyboard shortcuts
   useEffect(() => {
@@ -130,6 +156,13 @@ const Header = () => {
 
   const toggleNotifications = () => {
     setIsNotificationsOpen(!isNotificationsOpen);
+  };
+
+  const toggleSectionExpand = (sectionId) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
   };
 
   const saveRecentSearch = (query) => {
@@ -225,13 +258,118 @@ const Header = () => {
     'JavaScript Basics', 'React Hooks', 'CSS Grid', 'Responsive Design', 'TypeScript'
   ];
 
+  // Render the mobile sidebar content based on the current page
+  const renderMobileSidebarContent = () => {
+    if (isTutorialPage && currentTutorial) {
+      return (
+        <div className="pt-2">
+          <h3 className="px-4 pb-2 text-lg font-bold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 mb-2">
+            {currentTutorial.title}
+          </h3>
+          <div className="px-2">
+            {currentTutorial.sections.map((section) => (
+              <div key={section.id} className="mb-2">
+                <button 
+                  className="w-full px-2 py-2 flex justify-between items-center text-left rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                  onClick={() => toggleSectionExpand(section.id)}
+                >
+                  <span className="font-medium text-gray-900 dark:text-white">{section.title}</span>
+                  {expandedSections[section.id] ? 
+                    <ChevronUp className="h-4 w-4 text-gray-500" /> : 
+                    <ChevronDown className="h-4 w-4 text-gray-500" />
+                  }
+                </button>
+                
+                {expandedSections[section.id] && (
+                  <ul className="ml-4 space-y-1 mt-1">
+                    {section.chapters.map((chapter) => {
+                      // Check if this chapter is active
+                      const chapterPathMatch = location.pathname.match(/\/tutorials\/([^\/]+)\/([^\/]+)\/([^\/]+)/);
+                      const isActive = chapterPathMatch && 
+                                      chapterPathMatch[1] === currentTutorialId && 
+                                      chapterPathMatch[2] === section.id && 
+                                      chapterPathMatch[3] === chapter.id;
+                      
+                      return (
+                        <li key={chapter.id}>
+                          <Link
+                            to={`/tutorials/${currentTutorial.id}/${section.id}/${chapter.id}`}
+                            className={`block rounded-md px-3 py-2 text-sm ${
+                              isActive
+                                ? 'bg-primary-50 text-primary-700 dark:bg-gray-700 dark:text-primary-300 font-medium'
+                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200'
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {chapter.title}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="px-4 pt-4 mt-2 border-t border-gray-200 dark:border-gray-700">
+            <Link 
+              to="/tutorials"
+              className="flex items-center text-secondary-600 dark:text-secondary-400 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" />
+              Back to Tutorials
+            </Link>
+          </div>
+        </div>
+      );
+    } else {
+      // Default navigation for non-tutorial pages
+      return (
+        <nav className="container">
+          <ul className="flex flex-col space-y-4">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 font-medium transition-colors p-2 rounded-lg ${
+                      isActive ? 'bg-secondary-50 text-secondary-600 dark:bg-gray-700 dark:text-secondary-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    }`
+                  }
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </NavLink>
+              </li>
+            ))}
+            <li className="pt-2 border-t border-gray-100 dark:border-gray-700">
+              <button
+                onClick={toggleDarkMode}
+                className="flex w-full items-center gap-2 p-2 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg"
+              >
+                {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      );
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 shadow-sm dark:bg-gray-800/90 transition-all duration-300">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center">
           <NavLink to="/" className="flex items-center gap-2 font-bold">
-            <Code className="h-7 w-7 text-secondary-600 dark:text-secondary-400" />
-            <span className="text-xl gradient-text">CodeiansHub</span>
+            <img 
+              src={logoImage} 
+              alt="CodePeCharcha Logo" 
+              className="h-8 w-8 rounded-full object-cover border border-gray-200 dark:border-gray-700 overflow-hidden"
+            />
+            <span className="text-xl gradient-text">CodePeCharcha</span>
           </NavLink>
         </div>
 
@@ -625,36 +763,8 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="absolute left-0 top-16 z-50 w-full bg-white/95 backdrop-blur-md pb-6 pt-2 shadow-lg md:hidden dark:bg-gray-800/95">
-            <nav className="container">
-              <ul className="flex flex-col space-y-4">
-                {navItems.map((item) => (
-                  <li key={item.name}>
-                    <NavLink
-                      to={item.path}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 font-medium transition-colors p-2 rounded-lg ${
-                          isActive ? 'bg-secondary-50 text-secondary-600 dark:bg-gray-700 dark:text-secondary-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                        }`
-                      }
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.icon}
-                      <span>{item.name}</span>
-                    </NavLink>
-                  </li>
-                ))}
-                <li className="pt-2 border-t border-gray-100 dark:border-gray-700">
-                  <button
-                    onClick={toggleDarkMode}
-                    className="flex w-full items-center gap-2 p-2 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg"
-                  >
-                    {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                    <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
-                  </button>
-                </li>
-              </ul>
-            </nav>
+          <div className="absolute left-0 top-16 z-50 w-full bg-white/95 backdrop-blur-md pb-6 pt-2 shadow-lg md:hidden dark:bg-gray-800/95 max-h-[80vh] overflow-y-auto">
+            {renderMobileSidebarContent()}
           </div>
         )}
 

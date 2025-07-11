@@ -33,7 +33,7 @@ const CodeSnippet = () => {
       <pre className="language-javascript">
         <code>
           <span className="text-blue-400">import</span> <span className="text-green-400">React</span> <span className="text-blue-400">from</span> <span className="text-yellow-400">'react'</span>;{'\n\n'}
-          <span className="text-blue-400">function</span> <span className="text-yellow-400">LearnWithCodeiansHub</span>() {'{'}
+          <span className="text-blue-400">function</span> <span className="text-yellow-400">LearnWithCodePeCharcha</span>() {'{'}
           <span className="text-blue-400">const</span> [<span className="text-green-400">skills</span>, <span className="text-yellow-400">setSkills</span>] = <span className="text-yellow-400">React.useState</span>([]);{'\n\n  '}
           <span className="text-blue-400">useEffect</span>(() =&gt; {'{'}
           <span className="text-green-400">const</span> <span className="text-yellow-400">newSkills</span> = [<span className="text-yellow-400">'React'</span>, <span className="text-yellow-400">'JavaScript'</span>, <span className="text-yellow-400">'Node.js'</span>];{'\n    '}
@@ -42,7 +42,7 @@ const CodeSnippet = () => {
           <span className="text-blue-400">return</span> ({'\n    '}
           {'<'}<span className="text-green-400">div</span>{'>'}{'\n      '}
           {'<'}<span className="text-green-400">h1</span>{'>'}Master web development{'</'}<span className="text-green-400">h1</span>{'>'}{'\n      '}
-          {'<'}<span className="text-green-400">p</span>{'>'}Learn with CodeiansHub{'</'}<span className="text-green-400">p</span>{'>'}{'\n    '}
+          {'<'}<span className="text-green-400">p</span>{'>'}Learn with CodePeCharcha{'</'}<span className="text-green-400">p</span>{'>'}{'\n    '}
           {'</'}<span className="text-green-400">div</span>{'>'}{'\n  '});{'\n'}
           {'}'}
         </code>
@@ -159,7 +159,7 @@ const HomePage = () => {
                   </span>
                 </h1>
                 <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
-                  Welcome to <span className="font-bold">CodeiansHub</span> - My personal coding platform where I share tutorials, 
+                  Welcome to <span className="font-bold">CodePeCharcha</span> - My personal coding platform where I share tutorials, 
                   documentation, and handwritten notes to help you master web development.
                 </p>
                 <TypewriterText text="// Start coding your future today" delay={70} />

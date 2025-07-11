@@ -37,6 +37,100 @@ body {
   .card {
     @apply rounded-lg bg-white p-6 shadow-md dark:bg-gray-800;
   }
+
+  /* Tutorial content styles */
+  .tutorial-content {
+    @apply text-base leading-relaxed;
+  }
+
+  .tutorial-content h2 {
+    @apply text-2xl font-bold mt-10 mb-5 text-gray-900 dark:text-white pb-2 relative;
+    border-bottom: 2px solid theme('colors.secondary.500');
+  }
+
+  .tutorial-content h2::before {
+    content: "";
+    @apply absolute left-0 bottom-0 h-0.5 w-16 bg-primary-500 -mb-0.5;
+  }
+
+  .tutorial-content h3 {
+    @apply text-xl font-semibold mt-7 mb-3 text-gray-800 dark:text-gray-100;
+    border-left: 4px solid theme('colors.primary.500');
+    padding-left: 0.75rem;
+  }
+
+  .tutorial-content p {
+    @apply my-4 text-gray-700 dark:text-gray-300 leading-relaxed;
+  }
+
+  .tutorial-content ul {
+    @apply my-5 ml-6 space-y-3 text-gray-700 dark:text-gray-300;
+  }
+
+  .tutorial-content ul li {
+    @apply relative pl-2;
+  }
+
+  .tutorial-content ul li::before {
+    content: "•";
+    @apply absolute -left-5 text-primary-500 font-bold;
+  }
+
+  .tutorial-content ul ul {
+    @apply ml-6 mt-2 mb-0;
+  }
+
+  .tutorial-content strong {
+    @apply font-bold text-primary-700 dark:text-primary-400;
+  }
+
+  .tutorial-content pre {
+    @apply my-6 p-4 rounded-lg overflow-x-auto;
+    background: linear-gradient(to right, #f8f9fa, #edf2f7);
+    border: 1px solid theme('colors.gray.200');
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .dark .tutorial-content pre {
+    background: linear-gradient(to right, #1a202c, #2d3748);
+    border: 1px solid theme('colors.gray.700');
+  }
+
+  .tutorial-content code {
+    @apply font-mono text-sm text-primary-700 dark:text-primary-400 px-1 py-0.5 rounded;
+    background: rgba(66, 153, 225, 0.1);
+  }
+
+  .tutorial-content pre code {
+    @apply text-gray-800 dark:text-gray-200 p-0 bg-transparent;
+  }
+
+  /* Info box styling */
+  .info-box {
+    @apply my-6 p-4 rounded-lg border-l-4 border-primary-500 bg-primary-50 dark:bg-gray-800 dark:border-primary-400;
+  }
+
+  .info-box-title {
+    @apply font-bold text-primary-700 dark:text-primary-400 flex items-center mb-2;
+  }
+
+  /* Warning box styling */
+  .warning-box {
+    @apply my-6 p-4 rounded-lg border-l-4 border-amber-500 bg-amber-50 dark:bg-gray-800 dark:border-amber-400;
+  }
+
+  .warning-box-title {
+    @apply font-bold text-amber-700 dark:text-amber-400 flex items-center mb-2;
+  }
+
+  /* Tip box styling */
+  .tip-box {
+    @apply my-6 p-4 rounded-lg border-l-4 border-green-500 bg-green-50 dark:bg-gray-800 dark:border-green-400;
+  }
+  
+  .tip-box-title {
+    @apply font-bold text-green-700 dark:text-green-400 flex items-center mb-2;
+  }
 }
 
 @keyframes fadeIn {

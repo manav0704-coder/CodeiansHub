@@ -1,4 +1,4 @@
-# CodeiansHub - Educational Platform
+# CodePeCharcha - Educational Platform
 
 A modern educational platform for learning coding and web development, created by Manav Pardeshi.
 

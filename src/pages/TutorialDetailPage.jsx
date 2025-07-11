@@ -78,8 +78,8 @@ const TutorialDetailPage = () => {
       </div>
       
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-        {/* Sidebar */}
-        <div className="lg:col-span-1">
+        {/* Sidebar - hidden on mobile */}
+        <div className="hidden lg:block lg:col-span-1">
           <div className="rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
             <div className="border-b border-gray-200 p-4 dark:border-gray-700">
               <h2 className="flex items-center text-lg font-semibold text-gray-900 dark:text-white">
@@ -115,20 +115,19 @@ const TutorialDetailPage = () => {
           </div>
         </div>
         
-        {/* Main Content */}
-        <div className="lg:col-span-3">
+        {/* Main Content - full width on mobile */}
+        <div className="col-span-1 lg:col-span-3">
           <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
               {currentChapter.title}
             </h2>
             <div className="prose max-w-none dark:prose-invert">
-              <p className="text-gray-800 dark:text-gray-200">{currentChapter.content}</p>
-              
-              {/* Add more tutorial content here */}
-              <p className="mt-6 text-gray-800 dark:text-gray-200">
-                This is where the full tutorial content would be displayed. In a real implementation, this could include
-                code examples, images, interactive exercises, and more.
-              </p>
+              {typeof currentChapter.content === 'string' && (
+                <div 
+                  className="tutorial-content text-gray-800 dark:text-gray-200" 
+                  dangerouslySetInnerHTML={{ __html: currentChapter.content }}
+                />
+              )}
             </div>
             
             {/* Next/Previous Navigation */}
